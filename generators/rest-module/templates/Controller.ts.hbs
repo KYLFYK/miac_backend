@@ -1,0 +1,132 @@
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Inject,
+  Param,
+  ParseIntPipe,
+  Post,
+  Patch,
+  Query,
+} from '@nestjs/common';
+import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { plainToClass } from 'class-transformer';
+
+import { {{Service name}} } from './{{Service name}}';
+
+import { {{Interface name}} } from './interfaces/{{Interface name}}';
+import { {{Interface name}}Extended } from './interfaces/{{Interface name}}Extended';
+import { {{Interface name}}CreateData } from './interfaces/{{Interface name}}CreateData';
+import { {{Interface name}}UpdateData } from './interfaces/{{Interface name}}UpdateData';
+
+import { Get{{pascalCase name}}ByIdQueryDto } from './dto/Get{{pascalCase name}}ByIdQueryDto';
+import { Get{{pascalCase name}}ByIdResponseDto } from './dto/Get{{pascalCase name}}ByIdResponseDto';
+import { GetMany{{plural (pascalCase name)}}QueryDto } from './dto/GetMany{{plural (pascalCase name)}}QueryDto';
+import { GetMany{{plural (pascalCase name)}}ResponseDto } from './dto/GetMany{{plural (pascalCase name)}}ResponseDto';
+import { Create{{pascalCase name}}QueryDto } from './dto/Create{{pascalCase name}}QueryDto';
+import { Create{{pascalCase name}}BodyDto } from './dto/Create{{pascalCase name}}BodyDto';
+import { Create{{pascalCase name}}ResponseDto } from './dto/Create{{pascalCase name}}ResponseDto';
+import { Update{{pascalCase name}}QueryDto } from './dto/Update{{pascalCase name}}QueryDto';
+import { Update{{pascalCase name}}BodyDto } from './dto/Update{{pascalCase name}}BodyDto';
+import { Update{{pascalCase name}}ResponseDto } from './dto/Update{{pascalCase name}}ResponseDto';
+
+@ApiTags('{{sentenceCase (plural name)}} - {{sentenceCase title}}')
+@Controller('{{route name}}')
+export class {{Controller name}} {
+  @Inject()
+  private readonly {{camelCase name}}Service: {{Service name}};
+
+  @Get('/')
+  @ApiOperation({ summary: 'Список {{plural title}}' })
+  @ApiResponse({ status: HttpStatus.OK, type: GetMany{{plural (pascalCase name)}}ResponseDto })
+  async getMany{{plural (pascalCase name)}}(
+    @Query() query: GetMany{{plural (pascalCase name)}}QueryDto,
+  ): Promise<GetMany{{plural (pascalCase name)}}ResponseDto> {
+    const [items, count] = await this.{{camelCase name}}Service.findMany(query);
+
+    return plainToClass(GetMany{{plural (pascalCase name)}}ResponseDto, { items, meta: { count }});
+  }
+
+  @Get('/:{{camelCase name}}Id')
+  @ApiParam({ name: '{{camelCase name}}Id', type: Number })
+  @ApiOperation({ summary: 'Получить один {{singular title}} по идентификатору' })
+  @ApiResponse({ status: HttpStatus.OK, type: Get{{pascalCase name}}ByIdResponseDto })
+  @ApiResponse({ status: HttpStatus.NOT_FOUND })
+  async get{{pascalCase name}}ById(
+    @Param('{{camelCase name}}Id', ParseIntPipe) {{camelCase name}}Id: {{Interface name}}['id'],
+      @Query() query: Get{{pascalCase name}}ByIdQueryDto,
+  ): Promise<Get{{pascalCase name}}ByIdResponseDto> {
+    const {{camelCase name}} = await this.{{camelCase name}}Service.findByIdStrict({{camelCase name}}Id, query.relations);
+
+    return plainToClass(Get{{pascalCase name}}ByIdResponseDto, {{camelCase name}});
+  }
+
+  @Post('/')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Создать {{singular title}}' })
+  @ApiResponse({ status: HttpStatus.OK, type: Create{{pascalCase name}}ResponseDto })
+  async create{{pascalCase name}}(
+    @Body() createData: Create{{pascalCase name}}BodyDto,
+      @Query() query: Create{{pascalCase name}}QueryDto,
+  ): Promise<Create{{pascalCase name}}ResponseDto> {
+    const relationsForCreate = await this.getRelationsForUpsert(createData);
+
+    const created = await this.{{camelCase name}}Service.create(createData, relationsForCreate);
+
+    const found = await this.{{camelCase name}}Service.findByIdStrict(created.id, query.relations);
+
+    return plainToClass(Create{{pascalCase name}}ResponseDto, found);
+  }
+
+  @Patch('/:{{camelCase name}}Id')
+  @ApiParam({ name: '{{camelCase name}}Id', type: Number })
+  @ApiOperation({ summary: 'Обновить {{singular title}}' })
+  @ApiResponse({ status: HttpStatus.OK, type: Update{{pascalCase name}}ResponseDto })
+  @ApiResponse({ status: HttpStatus.NOT_FOUND })
+  async update{{pascalCase name}}(
+    @Param('{{camelCase name}}Id', ParseIntPipe) {{camelCase name}}Id: {{Interface name}}['id'],
+      @Body() updateData: Update{{pascalCase name}}BodyDto,
+      @Query() query: Update{{pascalCase name}}QueryDto,
+  ): Promise<Update{{pascalCase name}}ResponseDto> {
+    const found{{pascalCase name}} = await this.{{camelCase name}}Service.findByIdStrict({{camelCase name}}Id);
+
+    const relationsForUpdate = await this.getRelationsForUpsert(updateData);
+
+    await this.{{camelCase name}}Service.update(found{{pascalCase name}}, updateData, relationsForUpdate);
+
+    const found = await this.{{camelCase name}}Service.findByIdStrict({{camelCase name}}Id, query.relations);
+
+    return plainToClass(Update{{pascalCase name}}ResponseDto, found);
+  }
+
+  @Delete('/:{{camelCase name}}Id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiParam({ name: '{{camelCase name}}Id', type: Number })
+  @ApiOperation({ summary: 'Удалить {{singular title}}' })
+  @ApiResponse({ status: HttpStatus.NO_CONTENT })
+  async delete{{pascalCase name}}(
+    @Param('{{camelCase name}}Id', ParseIntPipe) {{camelCase name}}Id: {{Interface name}}['id'],
+  ) : Promise<void> {
+    await this.{{camelCase name}}Service.deleteById({{camelCase name}}Id);
+  }
+
+  private async getRelationsForUpsert(
+    upsertData: {{Interface name}}CreateData | {{Interface name}}UpdateData,
+  ): Promise<{{Interface name}}Extended> {
+    const relations: {{Interface name}}Extended = {};
+
+    // NOTE: example how to get relations for create or update actions
+    // needed to inject someService in controller
+    // replace this code for real implementation
+    // if (upsertData.categoryIds) {
+    //   const categories = await this.someService.findManyByIdsStrict(upsertData.categoryIds);
+    //
+    //   relations['categories'] = categories;
+    // }
+
+    return relations;
+  }
+}

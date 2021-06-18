@@ -1,0 +1,23 @@
+import { ApiProperty } from '@nestjs/swagger';
+import { Expose } from 'class-transformer';
+
+import { {{Interface name}} } from '../interfaces/{{Interface name}}';
+import { {{Interface name}}Extended } from '../interfaces/{{Interface name}}Extended';
+
+export class {{pascalCase name}}ResponseDto implements {{Interface name}}, {{Interface name}}Extended {
+  @Expose()
+  @ApiProperty()
+  id: number;
+
+  @Expose()
+  @ApiProperty()
+  name: string;
+
+  @Expose()
+  @ApiProperty()
+  createdAt: Date;
+
+  @Expose()
+  @ApiProperty()
+  updatedAt: Date;
+}

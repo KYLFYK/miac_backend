@@ -1,0 +1,19 @@
+import { ApiProperty } from '@nestjs/swagger';
+import { Expose, Type } from 'class-transformer';
+
+import { IGetManyResponseDto } from '../../common/interfaces/IGetManyResponseDto';
+
+import { GetManyMetaResponseDto } from '../../common/dto/GetManyMetaResponseDto';
+import { {{pascalCase name}}ResponseDto } from './{{pascalCase name}}ResponseDto';
+
+export class GetMany{{plural (pascalCase name)}}ResponseDto implements IGetManyResponseDto<{{pascalCase name}}ResponseDto> {
+  @Expose()
+  @Type(() => {{pascalCase name}}ResponseDto)
+  @ApiProperty({ type: {{pascalCase name}}ResponseDto, isArray: true })
+  items: {{pascalCase name}}ResponseDto[];
+
+  @Expose()
+  @Type(() => GetManyMetaResponseDto)
+  @ApiProperty({ type: GetManyMetaResponseDto })
+  meta: GetManyMetaResponseDto;
+}

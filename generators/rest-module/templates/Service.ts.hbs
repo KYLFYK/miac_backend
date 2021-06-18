@@ -1,0 +1,98 @@
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { difference } from 'lodash';
+
+import { {{Exception name}}NotFound } from './exceptions/{{Exception name}}NotFound';
+import { {{Exception name}}NotFoundMany } from './exceptions/{{Exception name}}NotFoundMany';
+
+import { IGetManyQueryDto } from '../common/interfaces/IGetManyQueryDto';
+import { {{Interface name}} } from './interfaces/{{Interface name}}';
+import { {{Interface name}}Extended } from './interfaces/{{Interface name}}Extended';
+import { {{Interface name}}CreateData } from './interfaces/{{Interface name}}CreateData';
+import { {{Interface name}}UpdateData } from './interfaces/{{Interface name}}UpdateData';
+
+import { {{Entity name}} } from './entities/{{Entity name}}';
+
+@Injectable()
+export class {{Service name}} {
+  constructor(
+    @InjectRepository({{Entity name}})
+    private {{camelCase name}}Repository: Repository<{{Entity name}}>,
+  ) {}
+
+  async findById(id: {{Interface name}}['id'], relations?: string[]): Promise<{{Entity name}}> {
+    return this.{{camelCase name}}Repository.findOne(id, {
+      relations,
+    });
+  }
+
+  async findBy(fields: Partial<{{Interface name}}>): Promise<{{Entity name}}> {
+    return this.{{camelCase name}}Repository.findOne({
+      ...fields,
+    });
+  }
+
+  async findByIdStrict(id: {{Interface name}}['id'], relations?: string[]): Promise<{{Entity name}}> {
+    const found{{pascalCase name}} = await this.findById(id, relations);
+
+    if (!found{{pascalCase name}}) {
+      throw new {{Exception name}}NotFound(id);
+    }
+
+    return found{{pascalCase name}};
+  }
+
+  async findMany(query: IGetManyQueryDto<{{Entity name}}>): Promise<[{{Entity name}}[], number]> {
+    return this.{{camelCase name}}Repository.findAndCount(query.getFindOptions());
+  }
+
+  async findManyByIds(ids: {{Interface name}}['id'][]): Promise<{{Entity name}}[]> {
+    if (ids.length === 0) {
+      return [];
+    }
+
+    return this.{{camelCase name}}Repository.findByIds(ids);
+  }
+
+  async findManyByIdsStrict(ids: {{Interface name}}['id'][]): Promise<{{Entity name}}[]> {
+    const {{plural (camelCase name)}} = await this.findManyByIds(ids);
+
+    if ({{plural (camelCase name)}}.length !== ids.length) {
+      const found{{pascalCase name}}Ids = {{plural (camelCase name)}}.map(item => item.id);
+      const notFound{{pascalCase name}}Ids = difference(ids, found{{pascalCase name}}Ids);
+
+      throw new {{Exception name}}NotFoundMany(notFound{{pascalCase name}}Ids);
+    }
+
+    return {{plural (camelCase name)}};
+  }
+
+  async create(
+    createData: {{Interface name}}CreateData,
+    relations: {{Interface name}}Extended,
+  ): Promise<{{Entity name}}> {
+    return this.{{camelCase name}}Repository.save({
+      ...createData,
+      ...relations,
+    });
+  }
+
+  async update(
+    {{camelCase name}}: {{Entity name}},
+    updateData: {{Interface name}}UpdateData,
+    relations: {{Interface name}}Extended,
+  ): Promise<{{Entity name}}> {
+    const updated{{pascalCase name}} = this.{{camelCase name}}Repository.merge(
+      {{camelCase name}},
+      updateData,
+      relations,
+    );
+
+    return this.{{camelCase name}}Repository.save(updated{{pascalCase name}});
+  }
+
+  async deleteById(id: {{Interface name}}['id']): Promise<void> {
+    await this.{{camelCase name}}Repository.delete(id);
+  }
+}

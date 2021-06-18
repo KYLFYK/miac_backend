@@ -1,0 +1,15 @@
+import Faker from 'faker';
+import { define } from 'typeorm-seeding';
+
+import { {{Entity name}} } from '../../src/{{moduleFolder name}}/entities/{{Entity name}}';
+import { {{Interface name}}CreateData } from '../../src/{{moduleFolder name}}/interfaces/{{Interface name}}CreateData';
+
+define({{Entity name}}, (faker: typeof Faker) => {
+  const entity = new {{Entity name}}();
+
+  const data: {{Interface name}}CreateData = {
+    name: faker.lorem.word(),
+  };
+
+  return Object.assign(entity, data);
+});

@@ -1,0 +1,12 @@
+import { NotFoundException } from '@nestjs/common';
+
+import { {{Interface name}} } from '../interfaces/{{Interface name}}';
+
+export class E{{pascalCase name}}NotFoundMany extends NotFoundException {
+  constructor(ids: {{Interface name}}['id'][]) {
+    super({
+      code: 'E_{{constantCase name}}_02',
+      message: `{{plural (sentenceCase name)}} with ${ids.join(', ')} do not exist`,
+    });
+  }
+}

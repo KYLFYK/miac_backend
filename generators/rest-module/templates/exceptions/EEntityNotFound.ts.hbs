@@ -1,0 +1,12 @@
+import { NotFoundException } from '@nestjs/common';
+
+import { {{Interface name}} } from '../interfaces/{{Interface name}}';
+
+export class E{{pascalCase name}}NotFound extends NotFoundException {
+  constructor(id: {{Interface name}}['id']) {
+    super({
+      code: 'E_{{constantCase name}}_01',
+      message: `{{sentenceCase name}} ${id} does not exist`,
+    });
+  }
+}

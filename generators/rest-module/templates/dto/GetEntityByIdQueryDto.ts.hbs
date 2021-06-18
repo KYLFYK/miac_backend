@@ -1,0 +1,14 @@
+import { ApiPropertyQueryRelations } from '../../common/decorators/ApiPropertyQueryRelations';
+
+import { DEFAULT_{{constantCase name}}_RELATIONS } from '../{{camelCase name}}.const';
+
+import { QueryField } from '../../common/query/types/QueryField';
+
+import { IGetByIdQueryDto } from '../../common/interfaces/IGetByIdQueryDto';
+
+export class Get{{pascalCase name}}ByIdQueryDto implements IGetByIdQueryDto {
+  @ApiPropertyQueryRelations({
+    fields: DEFAULT_{{constantCase name}}_RELATIONS,
+  })
+  [QueryField.relations]: string[];
+}

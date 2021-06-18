@@ -1,0 +1,12 @@
+import { ApiPropertyOptional } from '@nestjs/swagger';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+
+import { {{Interface name}}UpdateData } from '../interfaces/{{Interface name}}UpdateData';
+
+export class Update{{pascalCase name}}BodyDto implements {{Interface name}}UpdateData {
+  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
+  @ApiPropertyOptional()
+  readonly name: string;
+}

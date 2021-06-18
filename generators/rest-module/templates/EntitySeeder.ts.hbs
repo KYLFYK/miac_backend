@@ -1,0 +1,12 @@
+import { Factory, Seeder } from 'typeorm-seeding';
+import { Connection } from 'typeorm';
+
+import { {{Entity name}} } from '../../src/{{moduleFolder name}}/entities/{{Entity name}}';
+
+export default class {{pascalCase name}}Seeder implements Seeder {
+  public async run(factory: Factory, connection: Connection) : Promise<void> {
+    const {{camelCase name}}Factory = factory({{Entity name}})();
+
+    await {{camelCase name}}Factory.createMany(5);
+  }
+}
