@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 
-import { IPatient } from '../interfaces/IPatient';
+import {IPatient, sexType} from '../interfaces/IPatient';
 import { IPatientExtended } from '../interfaces/IPatientExtended';
 
 export class PatientResponseDto implements IPatient, IPatientExtended {
@@ -11,13 +11,42 @@ export class PatientResponseDto implements IPatient, IPatientExtended {
 
   @Expose()
   @ApiProperty()
-  name: string;
+  email: string;
 
   @Expose()
   @ApiProperty()
-  createdAt: Date;
+  firstName: string;
 
   @Expose()
   @ApiProperty()
-  updatedAt: Date;
+  isVerify: boolean;
+
+  @Expose()
+  @ApiProperty()
+  lastName: string;
+
+  @Expose()
+  @ApiProperty()
+  phone: string;
+
+  @Expose()
+  @ApiProperty()
+  age: number;
+
+  @Expose()
+  @ApiProperty()
+  weight: number;
+
+  @Expose()
+  @ApiProperty({ type: 'enum', enum: sexType, default: sexType.MALE})
+  sex: sexType;
+
+  @Expose()
+  @ApiProperty()
+  readonly createdAt: Date;
+
+  @Expose()
+  @ApiProperty()
+  readonly updatedAt: Date;
+
 }

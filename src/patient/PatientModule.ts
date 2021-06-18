@@ -6,12 +6,14 @@ import { PatientEntity } from './entities/PatientEntity';
 import { PatientService } from './PatientService';
 
 import { PatientController } from './PatientController';
+import {RecordsModule} from "../records/RecordsModule";
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
       PatientEntity,
     ]),
+    RecordsModule,
   ],
   controllers: [
     PatientController,
@@ -19,5 +21,8 @@ import { PatientController } from './PatientController';
   providers: [
     PatientService,
   ],
+  exports: [
+    PatientService
+  ]
 })
 export class PatientModule {}

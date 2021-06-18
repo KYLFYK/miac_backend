@@ -3,6 +3,7 @@ import { IPatient } from './IPatient';
 
 type OMIT_FIELDS = keyof IBaseEntity
 // | 'somefield'
+| 'id'
 ;
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

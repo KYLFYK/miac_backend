@@ -3,11 +3,12 @@ import {
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
-  UpdateDateColumn,
+  UpdateDateColumn, OneToMany, JoinColumn,
 } from 'typeorm';
 
-import { IPatient } from '../interfaces/IPatient';
+import {IPatient, sexType} from '../interfaces/IPatient';
 import { IPatientExtended } from '../interfaces/IPatientExtended';
+import {RecordsEntity} from "../../records/entities/RecordsEntity";
 
 @Entity('patients')
 export class PatientEntity implements IPatient, IPatientExtended {
@@ -15,7 +16,32 @@ export class PatientEntity implements IPatient, IPatientExtended {
   id: number;
 
   @Column()
-  name: string;
+  email: string;
+
+  @Column()
+  firstName: string;
+
+  @Column()
+  isVerify: boolean;
+
+  @Column()
+  lastName: string;
+
+  @Column({ default: '+79999999999'})
+  phone: string;
+
+  @Column()
+  age: number;
+
+  @Column()
+  weight: number;
+
+  @Column({ type: 'enum', enum: sexType, default: sexType.MALE})
+  sex: sexType;
+
+  @OneToMany(() => RecordsEntity, record => record.id)
+  @JoinColumn()
+  records: RecordsEntity[];
 
   @CreateDateColumn()
   createdAt: Date;
