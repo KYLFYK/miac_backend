@@ -62,8 +62,6 @@ export class RecordsController {
   @ApiQuery({ name: 'limit', type: Number, example: 0, required: false})
   @ApiQuery({ name: 'dateEnd', type: String, example: formatISO(new Date)})
   @ApiQuery({ name: 'dateStart', type: String, example: formatISO(new Date)})
-
-
   @ApiOperation({ summary: 'Получить все записи из журнала принадлежащие пациенту' })
   @ApiResponse({ status: HttpStatus.OK })
   @ApiResponse({ status: HttpStatus.NOT_FOUND })
