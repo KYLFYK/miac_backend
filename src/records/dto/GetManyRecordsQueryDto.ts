@@ -17,20 +17,7 @@ import { GetManyQueryDto } from '../../common/dto/GetManyQueryDto';
 import { RecordsEntity } from '../entities/RecordsEntity';
 
 export class GetManyRecordsQueryDto extends GetManyQueryDto<RecordsEntity> {
-  @ApiPropertyQueryFilter({
-    entity: RecordsEntity,
-  })
-  [QueryField.where]: FindConditions<RecordsEntity>;
 
-  @ApiPropertyQuerySearch({
-    fields: ['name'],
-  })
-  [QueryField.search]: IQueryTransformedSearch<RecordsEntity>;
-
-  @ApiPropertyQueryRelations({
-    fields: DEFAULT_RECORDS_RELATIONS,
-  })
-  [QueryField.relations]: string[];
 
   @ApiPropertyQuerySort({
     entity: RecordsEntity,

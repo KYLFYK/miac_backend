@@ -3,7 +3,7 @@ import {
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
-  UpdateDateColumn, OneToMany, JoinColumn,
+  UpdateDateColumn, OneToMany, JoinColumn, ManyToMany, JoinTable,
 } from 'typeorm';
 
 import {IPatient, sexType} from '../interfaces/IPatient';
@@ -38,10 +38,6 @@ export class PatientEntity implements IPatient, IPatientExtended {
 
   @Column({ type: 'enum', enum: sexType, default: sexType.MALE})
   sex: sexType;
-
-  @OneToMany(() => RecordsEntity, record => record.id)
-  @JoinColumn()
-  records: RecordsEntity[];
 
   @CreateDateColumn()
   createdAt: Date;

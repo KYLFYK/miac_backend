@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import {forwardRef, Inject, Injectable} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import {Between, Repository} from 'typeorm';
 import { difference } from 'lodash';
 
 import { ERecordsNotFound } from './exceptions/ERecordsNotFound';
@@ -13,12 +13,18 @@ import { IRecordsCreateData } from './interfaces/IRecordsCreateData';
 import { IRecordsUpdateData } from './interfaces/IRecordsUpdateData';
 
 import { RecordsEntity } from './entities/RecordsEntity';
+import {IPatient} from "../patient/interfaces/IPatient";
+import {PatientService} from "../patient/PatientService";
+import {PatientEntity} from "../patient/entities/PatientEntity";
 
 @Injectable()
 export class RecordsService {
   constructor(
     @InjectRepository(RecordsEntity)
     private recordsRepository: Repository<RecordsEntity>,
+
+    @Inject(forwardRef(() => PatientService))
+    private patientService: PatientService,
   ) {}
 
   async findById(id: IRecords['id'], relations?: string[]): Promise<RecordsEntity> {
@@ -33,6 +39,19 @@ export class RecordsService {
     });
   }
 
+  async findByOwner(ownerId: IPatient['id'], query): Promise<RecordsEntity[]> {
+    console.log(query)
+    const data = await this.recordsRepository.find({
+      where: {
+        ownerId: ownerId,
+        createdAt: Between(query.dateStart, query.dateEnd)
+      },
+      ...query
+    })
+
+    return data
+  }
+
   async findByIdStrict(id: IRecords['id'], relations?: string[]): Promise<RecordsEntity> {
     const foundRecords = await this.findById(id, relations);
 
@@ -44,7 +63,7 @@ export class RecordsService {
   }
 
   async findMany(query: IGetManyQueryDto<RecordsEntity>): Promise<[RecordsEntity[], number]> {
-    return this.recordsRepository.findAndCount(query.getFindOptions());
+    return this.recordsRepository.findAndCount({relations: ['owner']});
   }
 
   async findManyByIds(ids: IRecords['id'][]): Promise<RecordsEntity[]> {
@@ -72,10 +91,7 @@ export class RecordsService {
     createData: IRecordsCreateData,
     relations: IRecordsExtended,
   ): Promise<RecordsEntity> {
-    return this.recordsRepository.save({
-      ...createData,
-      ...relations,
-    });
+    return this.recordsRepository.save(createData);
   }
 
   async update(

@@ -6,12 +6,14 @@ import { RecordsEntity } from './entities/RecordsEntity';
 import { RecordsService } from './RecordsService';
 
 import { RecordsController } from './RecordsController';
+import {PatientModule} from "../patient/PatientModule";
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
       RecordsEntity,
     ]),
+    PatientModule
   ],
   controllers: [
     RecordsController,

@@ -31,6 +31,7 @@
     "bcrypt": "5.0.1",
     "class-transformer": "0.3.2",
     "class-validator": "0.13.1",
+    "date-fns": "^2.22.1",
     "mysql": "^2.18.1",
     "nestjs-pino": "^1.4.0",
     "pg": "8.5.1",

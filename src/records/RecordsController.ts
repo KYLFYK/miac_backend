@@ -12,8 +12,9 @@ import {
   Patch,
   Query,
 } from '@nestjs/common';
-import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags} from '@nestjs/swagger';
 import { plainToClass } from 'class-transformer';
+import {format, formatISO} from 'date-fns'
 
 import { RecordsService } from './RecordsService';
 
@@ -32,6 +33,8 @@ import { CreateRecordsResponseDto } from './dto/CreateRecordsResponseDto';
 import { UpdateRecordsQueryDto } from './dto/UpdateRecordsQueryDto';
 import { UpdateRecordsBodyDto } from './dto/UpdateRecordsBodyDto';
 import { UpdateRecordsResponseDto } from './dto/UpdateRecordsResponseDto';
+import {PatientService} from "../patient/PatientService";
+import {QueryDto} from "../patient/dto/QueryDto";
 
 @ApiTags('Records - Журнал записи')
 @Controller('records')
@@ -39,8 +42,11 @@ export class RecordsController {
   @Inject()
   private readonly recordsService: RecordsService;
 
+  @Inject()
+  private readonly patientService: PatientService;
+
   @Get('/')
-  @ApiOperation({ summary: 'Список Журнал записи' })
+  @ApiOperation({ summary: 'Список записей в журнале' })
   @ApiResponse({ status: HttpStatus.OK, type: GetManyRecordsResponseDto })
   async getManyRecords(
     @Query() query: GetManyRecordsQueryDto,
@@ -50,9 +56,31 @@ export class RecordsController {
     return plainToClass(GetManyRecordsResponseDto, { items, meta: { count }});
   }
 
+  @Get('/byOwner/:ownerId')
+  @ApiParam({ name: 'ownerId', type: Number })
+  @ApiQuery({ name: 'take', type: Number, example: 20, required: false})
+  @ApiQuery({ name: 'limit', type: Number, example: 0, required: false})
+  @ApiQuery({ name: 'dateEnd', type: String, example: formatISO(new Date)})
+  @ApiQuery({ name: 'dateStart', type: String, example: formatISO(new Date)})
+
+
+  @ApiOperation({ summary: 'Получить все записи из журнала принадлежащие пациенту' })
+  @ApiResponse({ status: HttpStatus.OK })
+  @ApiResponse({ status: HttpStatus.NOT_FOUND })
+  async getRecordsByOwner(
+    @Query() query: QueryDto,
+    @Param('ownerId', ParseIntPipe) ownerId: number
+  ): Promise<any> {
+    const records = await this.recordsService.findByOwner(ownerId, query);
+
+    return {
+      items: records
+    }
+  }
+
   @Get('/:recordsId')
   @ApiParam({ name: 'recordsId', type: Number })
-  @ApiOperation({ summary: 'Получить один Журнал записи по идентификатору' })
+  @ApiOperation({ summary: 'Получить одину запись из журнала по идентификатору' })
   @ApiResponse({ status: HttpStatus.OK, type: GetRecordsByIdResponseDto })
   @ApiResponse({ status: HttpStatus.NOT_FOUND })
   async getRecordsById(
@@ -66,7 +94,7 @@ export class RecordsController {
 
   @Post('/')
   @HttpCode(HttpStatus.OK)
-  @ApiOperation({ summary: 'Создать Журнал записи' })
+  @ApiOperation({ summary: 'Создать запись в журнале' })
   @ApiResponse({ status: HttpStatus.OK, type: CreateRecordsResponseDto })
   async createRecords(
     @Body() createData: CreateRecordsBodyDto,
@@ -83,7 +111,7 @@ export class RecordsController {
 
   @Patch('/:recordsId')
   @ApiParam({ name: 'recordsId', type: Number })
-  @ApiOperation({ summary: 'Обновить Журнал записи' })
+  @ApiOperation({ summary: 'Обновить запись в журнале' })
   @ApiResponse({ status: HttpStatus.OK, type: UpdateRecordsResponseDto })
   @ApiResponse({ status: HttpStatus.NOT_FOUND })
   async updateRecords(
@@ -105,7 +133,7 @@ export class RecordsController {
   @Delete('/:recordsId')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiParam({ name: 'recordsId', type: Number })
-  @ApiOperation({ summary: 'Удалить Журнал записи' })
+  @ApiOperation({ summary: 'Удалить запись в журнале' })
   @ApiResponse({ status: HttpStatus.NO_CONTENT })
   async deleteRecords(
     @Param('recordsId', ParseIntPipe) recordsId: IRecords['id'],

@@ -13,7 +13,6 @@ import {RecordsModule} from "../records/RecordsModule";
     TypeOrmModule.forFeature([
       PatientEntity,
     ]),
-    RecordsModule,
   ],
   controllers: [
     PatientController,

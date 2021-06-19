@@ -3,6 +3,7 @@ import { Expose } from 'class-transformer';
 
 import { IRecords } from '../interfaces/IRecords';
 import { IRecordsExtended } from '../interfaces/IRecordsExtended';
+import {PatientResponseDto} from "../../patient/dto/PatientResponseDto";
 
 export class RecordsResponseDto implements IRecords, IRecordsExtended {
   @Expose()
@@ -24,6 +25,10 @@ export class RecordsResponseDto implements IRecords, IRecordsExtended {
   @Expose()
   @ApiProperty()
   feeling: string;
+
+  @Expose()
+  @ApiProperty()
+  owner: PatientResponseDto;
 
   @Expose()
   @ApiProperty()

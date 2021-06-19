@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import {IsString, IsNotEmpty, IsNumber} from 'class-validator';
 
 import { IRecordsCreateData } from '../interfaces/IRecordsCreateData';
+import {IPatient} from "../../patient/interfaces/IPatient";
 
 export class CreateRecordsBodyDto implements IRecordsCreateData {
   @IsNumber()
@@ -23,4 +24,9 @@ export class CreateRecordsBodyDto implements IRecordsCreateData {
   @IsNotEmpty()
   @ApiProperty({ example: 'Нормальное состояние' })
   readonly feeling: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  @ApiProperty({ description: 'Айдишник владельца', type: Number })
+  ownerId: IPatient['id'];
 }
