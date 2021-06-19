@@ -38,6 +38,14 @@ export class PatientResponseDto implements IPatient, IPatientExtended {
   weight: number;
 
   @Expose()
+  @ApiProperty()
+  height: number;
+
+  @Expose()
+  @ApiProperty()
+  snils: string;
+
+  @Expose()
   @ApiProperty({ type: 'enum', enum: sexType, default: sexType.MALE})
   sex: sexType;
 
@@ -48,5 +56,6 @@ export class PatientResponseDto implements IPatient, IPatientExtended {
   @Expose()
   @ApiProperty()
   readonly updatedAt: Date;
+
 
 }

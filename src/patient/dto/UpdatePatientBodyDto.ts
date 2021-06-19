@@ -3,6 +3,9 @@ import {IsBoolean, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString} from 'cla
 
 import { IPatientUpdateData } from '../interfaces/IPatientUpdateData';
 import {sexType} from "../interfaces/IPatient";
+import {IActivity} from "../../activity/interfaces/IActivity";
+import {ActivityResponseDto} from "../../activity/dto/ActivityResponseDto";
+import {Type} from "class-transformer";
 
 export class UpdatePatientBodyDto implements IPatientUpdateData {
   @IsString()
@@ -37,6 +40,16 @@ export class UpdatePatientBodyDto implements IPatientUpdateData {
 
   @IsNumber()
   @IsOptional()
+  @ApiPropertyOptional({ example: '150', default: '150'})
+  readonly height: number;
+
+  @IsNumber()
+  @IsOptional()
+  @ApiPropertyOptional({ example: '2390482384782374', default: '239482398493284'})
+  readonly snils: string;
+
+  @IsNumber()
+  @IsOptional()
   @ApiPropertyOptional({ example: '55', default: '55'})
   readonly age: number;
 
@@ -44,4 +57,8 @@ export class UpdatePatientBodyDto implements IPatientUpdateData {
   @IsOptional()
   @ApiPropertyOptional({ default: true })
   readonly isVerify: boolean;
+
+  @ApiPropertyOptional({ type: ActivityResponseDto, isArray: true})
+  @Type(() => ActivityResponseDto)
+  activityId: ActivityResponseDto["id"][];
 }

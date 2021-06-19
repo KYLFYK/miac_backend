@@ -5,5 +5,5 @@ export interface IDoctor extends IBaseEntity {
   firstName: string;
   lastName: string;
   phone?: string;
-  patientIds: IPatient["id"][];
+  patientIds?: IPatient["id"][];
 }

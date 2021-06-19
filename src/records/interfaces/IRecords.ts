@@ -6,4 +6,5 @@ export interface IRecords extends IBaseEntity {
   dia: number;
   heartRate: number;
   feeling: string;
+  description: string;
 }

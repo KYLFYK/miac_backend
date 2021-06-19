@@ -4,7 +4,7 @@ import {IsString, IsNotEmpty, IsNumber} from 'class-validator';
 import { IRecordsCreateData } from '../interfaces/IRecordsCreateData';
 import {IPatient} from "../../patient/interfaces/IPatient";
 
-export class CreateRecordsBodyDto implements IRecordsCreateData {
+export class CreateRecordsBodyDto implements Omit<IRecordsCreateData, 'owner'>{
   @IsNumber()
   @IsNotEmpty()
   @ApiProperty({ example: 120 })
@@ -29,4 +29,9 @@ export class CreateRecordsBodyDto implements IRecordsCreateData {
   @IsNotEmpty()
   @ApiProperty({ description: 'Айдишник владельца', type: Number })
   ownerId: IPatient['id'];
+
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({ example: 'Описание' })
+  readonly description: string;
 }

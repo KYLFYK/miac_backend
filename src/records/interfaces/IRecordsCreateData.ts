@@ -8,5 +8,4 @@ type OMIT_FIELDS = keyof IBaseEntity
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IRecordsCreateData extends Omit<IRecords, OMIT_FIELDS> {
-  ownerId: IPatient['id']
 }

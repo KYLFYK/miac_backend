@@ -43,8 +43,8 @@ export class DoctorService {
     return foundDoctor;
   }
 
-  async findMany(query: IGetManyQueryDto<DoctorEntity>): Promise<[DoctorEntity[], number]> {
-    return this.doctorRepository.findAndCount(query.getFindOptions());
+  async findMany(): Promise<[DoctorEntity[], number]> {
+    return this.doctorRepository.findAndCount();
   }
 
   async findManyByIds(ids: IDoctor['id'][]): Promise<DoctorEntity[]> {

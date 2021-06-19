@@ -5,6 +5,7 @@ import { IDoctor } from '../interfaces/IDoctor';
 import { IDoctorExtended } from '../interfaces/IDoctorExtended';
 import {GetManyPatientsResponseDto} from "../../patient/dto/GetManyPatientsResponseDto";
 import {PatientResponseDto} from "../../patient/dto/PatientResponseDto";
+import {IPatient} from "../../patient/interfaces/IPatient";
 
 export class DoctorResponseDto implements Omit<IDoctor, 'patientIds'>, IDoctorExtended {
   @Expose()
@@ -26,7 +27,7 @@ export class DoctorResponseDto implements Omit<IDoctor, 'patientIds'>, IDoctorEx
   @Expose()
   @Type(()=> PatientResponseDto)
   @ApiProperty({ type: PatientResponseDto, isArray: true })
-  patients: PatientResponseDto[];
+  patients: IPatient[];
 
   @Expose()
   @ApiProperty()

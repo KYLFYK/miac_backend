@@ -1,8 +1,9 @@
 import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
-import {IsString, IsNotEmpty, IsBoolean, IsEnum, IsNumber} from 'class-validator';
+import {IsString, IsNotEmpty, IsBoolean, IsEnum, IsNumber, IsOptional} from 'class-validator';
 
 import { IPatientCreateData } from '../interfaces/IPatientCreateData';
 import {sexType} from "../interfaces/IPatient";
+import {IActivity} from "../../activity/interfaces/IActivity";
 
 export class CreatePatientBodyDto implements IPatientCreateData {
   @IsString()
@@ -36,8 +37,19 @@ export class CreatePatientBodyDto implements IPatientCreateData {
   readonly age: number;
 
   @IsEnum(sexType)
+  @IsNotEmpty()
   @ApiProperty({ type: 'enum', enum: sexType, default: sexType.MALE })
   readonly sex: sexType;
+
+  @IsNumber()
+  @IsNotEmpty()
+  @ApiProperty({ example: 120, default: 120})
+  height: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  @ApiProperty({ example: '2390482384782374', default: '239482398493284'})
+  readonly snils: string;
 
   @IsBoolean()
   @IsNotEmpty()

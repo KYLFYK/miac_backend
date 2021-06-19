@@ -10,6 +10,10 @@ import {DoctorEntity} from "./doctor/entities/DoctorEntity";
 import {DoctorModule} from "./doctor/DoctorModule";
 import {RecordsEntity} from "./records/entities/RecordsEntity";
 import {RecordsModule} from "./records/RecordsModule";
+import {RecommendEntity} from "./recommend/entities/RecommendEntity";
+import {RecommendModule} from "./recommend/RecommendModule";
+import {ActivityEntity} from "./activity/entities/ActivityEntity";
+import {ActivityModule} from "./activity/ActivityModule";
 
 @Module({
   imports: [
@@ -23,17 +27,20 @@ import {RecordsModule} from "./records/RecordsModule";
         password: process.env.DB_PASSWORD,
         database: process.env.DB_NAME,
         entities: [
+          ActivityEntity,
           RecordsEntity,
           PatientEntity,
           DoctorEntity,
-
+          RecommendEntity,
         ],
         synchronize: true
       })
     }),
+    ActivityModule,
     RecordsModule,
     PatientModule,
     DoctorModule,
+    RecommendModule,
   ],
   controllers: [],
   providers: [AppService],

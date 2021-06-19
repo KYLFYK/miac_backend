@@ -40,12 +40,12 @@ export class RecordsService {
   }
 
   async findByOwner(ownerId: IPatient['id'], query): Promise<RecordsEntity[]> {
-    console.log(query)
     const data = await this.recordsRepository.find({
       where: {
         ownerId: ownerId,
         createdAt: Between(query.dateStart, query.dateEnd)
       },
+      relations: ['owner'],
       ...query
     })
 

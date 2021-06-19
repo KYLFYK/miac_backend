@@ -47,9 +47,8 @@ export class DoctorController {
   @ApiOperation({ summary: 'Список Доктор' })
   @ApiResponse({ status: HttpStatus.OK, type: GetManyDoctorsResponseDto })
   async getManyDoctors(
-    @Query() query: GetManyDoctorsQueryDto,
   ): Promise<GetManyDoctorsResponseDto> {
-    const [items, count] = await this.doctorService.findMany(query);
+    const [items, count] = await this.doctorService.findMany();
 
     return plainToClass(GetManyDoctorsResponseDto, { items, meta: { count }});
   }

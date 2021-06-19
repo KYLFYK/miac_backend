@@ -28,6 +28,9 @@ export class RecordsEntity implements IRecords, IRecordsExtended {
   feeling: string;
 
   @Column()
+  description: string;
+
+  @Column()
   ownerId: PatientEntity['id'];
 
   @ManyToOne(() => PatientEntity, patient => patient.id)

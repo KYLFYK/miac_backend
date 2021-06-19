@@ -25,4 +25,9 @@ export class UpdateRecordsBodyDto implements IRecordsUpdateData {
   @IsNotEmpty()
   @ApiPropertyOptional({ example: 'Нормальное состояние' })
   readonly feeling: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @ApiPropertyOptional({ example: 'Нормальное состояние' })
+  readonly description: string;
 }

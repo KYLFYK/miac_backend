@@ -1,4 +1,5 @@
 import { IBaseEntity } from '../../common/interfaces/IBaseEntity';
+import {IActivity} from "../../activity/interfaces/IActivity";
 
 export enum sexType {
   FEMALE = 'female',
@@ -11,6 +12,8 @@ export interface IPatient extends IBaseEntity {
   email: string;
   phone?: string;
   weight: number;
+  height: number;
+  snils: string;
   age: number;
   sex: sexType;
   isVerify: boolean;

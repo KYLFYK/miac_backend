@@ -1,5 +1,6 @@
 import { IBaseEntity } from '../../common/interfaces/IBaseEntity';
 import { IPatient } from './IPatient';
+import {IActivity} from "../../activity/interfaces/IActivity";
 
 type OMIT_FIELDS = keyof IBaseEntity
 // | 'somefield'

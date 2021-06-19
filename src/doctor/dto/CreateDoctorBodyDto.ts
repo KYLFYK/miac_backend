@@ -19,7 +19,4 @@ export class CreateDoctorBodyDto implements IDoctorCreateData {
   @IsNotEmpty()
   @ApiProperty({ example: '+79999999999' })
   phone: string;
-
-  @ApiProperty({ isArray: true })
-  patientIds: IPatient['id'][];
 }
