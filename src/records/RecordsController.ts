@@ -35,6 +35,7 @@ import { UpdateRecordsBodyDto } from './dto/UpdateRecordsBodyDto';
 import { UpdateRecordsResponseDto } from './dto/UpdateRecordsResponseDto';
 import {PatientService} from "../patient/PatientService";
 import {QueryDto} from "../patient/dto/QueryDto";
+import {GetManyRecordsByOwnerDto} from "../patient/dto/GetMenyRecordsByOwnerDto";
 
 @ApiTags('Records - Журнал записи')
 @Controller('records')
@@ -68,7 +69,7 @@ export class RecordsController {
   async getRecordsByOwner(
     @Query() query: QueryDto,
     @Param('ownerId', ParseIntPipe) ownerId: number
-  ): Promise<any> {
+  ): Promise<GetManyRecordsByOwnerDto> {
     const records = await this.recordsService.findByOwner(ownerId, query);
 
     return {
