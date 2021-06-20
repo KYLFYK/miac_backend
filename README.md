@@ -35,6 +35,11 @@ $ npm install
 ## Running the app
 
 ```bash
+#docker
+cd miac
+docker-compose up -d
+copy .env.example to .env
+
 # development
 $ npm run start
 
