@@ -37,8 +37,6 @@ export class RecordsEntity implements IRecords, IRecordsExtended {
   @ManyToOne(() => PatientEntity, patient => patient.id)
   owner: PatientEntity;
 
-
-
   @CreateDateColumn()
   createdAt: Date;
 

@@ -8,7 +8,8 @@ export enum sexType {
 export enum currentStatusType {
   NORMAL = 'Нормальное',
   GOOD = 'Хорошее',
-  BAD = 'Тяжелое',
+  SATISFACTORY = 'Удовлитворительное',
+  BAD = 'Плохое',
 }
 export interface IPatient extends IBaseEntity {
   id: number;

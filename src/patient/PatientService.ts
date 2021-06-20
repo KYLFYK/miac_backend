@@ -48,7 +48,7 @@ export class PatientService {
 
   async findMany(query: IGetManyQueryDto<PatientEntity>): Promise<[PatientEntity[], number]> {
     return this.patientRepository.findAndCount({
-      relations: ['records','chronic']
+      relations: ['chronic']
     });
   }
 

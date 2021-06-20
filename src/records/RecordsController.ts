@@ -69,7 +69,7 @@ export class RecordsController {
   async getRecordsByOwner(
     @Query() query: QueryDto,
     @Param('ownerId', ParseIntPipe) ownerId: number
-  ): Promise<GetManyRecordsByOwnerDto> {
+  ): Promise<any> {
     const records = await this.recordsService.findByOwner(ownerId, query);
 
     return {

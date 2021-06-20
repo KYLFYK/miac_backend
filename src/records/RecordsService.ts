@@ -40,9 +40,11 @@ export class RecordsService {
   }
 
   async findByOwner(ownerId: IPatient['id'], query): Promise<RecordsEntity[]> {
+
+    const owner = await this.patientService.findById(ownerId);
     const data = await this.recordsRepository.find({
       where: {
-        ownerId: ownerId,
+        ownerId: owner,
         createdAt: Between(query.dateStart, query.dateEnd)
       },
       relations: ['owner'],
@@ -63,7 +65,10 @@ export class RecordsService {
   }
 
   async findMany(query: IGetManyQueryDto<RecordsEntity>): Promise<[RecordsEntity[], number]> {
-    return this.recordsRepository.findAndCount({...query, relations: ['owner']});
+
+    const data = await this.recordsRepository.findAndCount({...query, relations: ['owner']});
+    console.log(data);
+    return data
   }
 
   async findManyByIds(ids: IRecords['id'][]): Promise<RecordsEntity[]> {
