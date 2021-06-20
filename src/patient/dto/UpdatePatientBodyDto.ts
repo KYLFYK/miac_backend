@@ -1,5 +1,5 @@
 import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
-import {IsBoolean, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString} from 'class-validator';
+import {IsArray, IsBoolean, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString} from 'class-validator';
 
 import { IPatientUpdateData } from '../interfaces/IPatientUpdateData';
 import {currentStatusType, sexType} from "../interfaces/IPatient";
@@ -37,6 +37,11 @@ export class UpdatePatientBodyDto implements IPatientUpdateData {
   @IsOptional()
   @ApiPropertyOptional({ type: 'enum', enum: currentStatusType, default: currentStatusType.NORMAL })
   readonly currentStatus: currentStatusType;
+
+  @IsArray()
+  @IsOptional()
+  @ApiPropertyOptional()
+  readonly chronicIds: number[];
 
   @IsNumber()
   @IsOptional()
