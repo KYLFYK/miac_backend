@@ -6,10 +6,11 @@ import {
   UpdateDateColumn, OneToMany, JoinColumn, ManyToMany, JoinTable, ManyToOne,
 } from 'typeorm';
 
-import {IPatient, sexType} from '../interfaces/IPatient';
+import {currentStatusType, IPatient, sexType} from '../interfaces/IPatient';
 import { IPatientExtended } from '../interfaces/IPatientExtended';
 import {RecordsEntity} from "../../records/entities/RecordsEntity";
 import {ActivityEntity} from "../../activity/entities/ActivityEntity";
+import {ChronicEntity} from "../../chronic/entities/ChronicEntity";
 
 @Entity('patients')
 export class PatientEntity implements IPatient, IPatientExtended {
@@ -39,6 +40,15 @@ export class PatientEntity implements IPatient, IPatientExtended {
 
   @Column({ type: 'enum', enum: sexType, default: sexType.MALE})
   sex: sexType;
+
+  @Column({ type: "enum", enum: currentStatusType, default: currentStatusType.NORMAL})
+  currentStatus: currentStatusType;
+
+  @ManyToMany(() => ChronicEntity, chronic => chronic.id)
+  @JoinTable({
+    name: 'chronic_to_patient'
+  })
+  chronic: ChronicEntity[];
 
   @Column()
   height: number;

@@ -1,9 +1,10 @@
 import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
-import {IsString, IsNotEmpty, IsBoolean, IsEnum, IsNumber, IsOptional} from 'class-validator';
+import {IsString, IsNotEmpty, IsBoolean, IsEnum, IsNumber, IsOptional, IsArray} from 'class-validator';
 
 import { IPatientCreateData } from '../interfaces/IPatientCreateData';
-import {sexType} from "../interfaces/IPatient";
+import {currentStatusType, sexType} from "../interfaces/IPatient";
 import {IActivity} from "../../activity/interfaces/IActivity";
+import {IChronic} from "../../chronic/interfaces/IChronic";
 
 export class CreatePatientBodyDto implements IPatientCreateData {
   @IsString()
@@ -40,6 +41,15 @@ export class CreatePatientBodyDto implements IPatientCreateData {
   @IsNotEmpty()
   @ApiProperty({ type: 'enum', enum: sexType, default: sexType.MALE })
   readonly sex: sexType;
+
+  @IsEnum(currentStatusType)
+  @IsNotEmpty()
+  @ApiProperty({ type: 'enum', enum: currentStatusType, default: currentStatusType.NORMAL })
+  readonly currentStatus: currentStatusType;
+
+  @IsArray()
+  @ApiProperty()
+  readonly chronicIds: number[];
 
   @IsNumber()
   @IsNotEmpty()

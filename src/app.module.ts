@@ -14,6 +14,8 @@ import {RecommendEntity} from "./recommend/entities/RecommendEntity";
 import {RecommendModule} from "./recommend/RecommendModule";
 import {ActivityEntity} from "./activity/entities/ActivityEntity";
 import {ActivityModule} from "./activity/ActivityModule";
+import {ChronicEntity} from "./chronic/entities/ChronicEntity";
+import {ChronicModule} from "./chronic/ChronicModule";
 
 @Module({
   imports: [
@@ -27,6 +29,7 @@ import {ActivityModule} from "./activity/ActivityModule";
         password: process.env.DB_PASSWORD,
         database: process.env.DB_NAME,
         entities: [
+          ChronicEntity,
           ActivityEntity,
           RecordsEntity,
           PatientEntity,
@@ -36,6 +39,7 @@ import {ActivityModule} from "./activity/ActivityModule";
         synchronize: true
       })
     }),
+    ChronicModule,
     ActivityModule,
     RecordsModule,
     PatientModule,

@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 
-import {IPatient, sexType} from '../interfaces/IPatient';
+import {currentStatusType, IPatient, sexType} from '../interfaces/IPatient';
 import { IPatientExtended } from '../interfaces/IPatientExtended';
 
 export class PatientResponseDto implements IPatient, IPatientExtended {
@@ -48,6 +48,10 @@ export class PatientResponseDto implements IPatient, IPatientExtended {
   @Expose()
   @ApiProperty({ type: 'enum', enum: sexType, default: sexType.MALE})
   sex: sexType;
+
+  @Expose()
+  @ApiProperty({ type: 'enum', enum: currentStatusType, default: currentStatusType.NORMAL})
+  currentStatus: currentStatusType;
 
   @Expose()
   @ApiProperty()

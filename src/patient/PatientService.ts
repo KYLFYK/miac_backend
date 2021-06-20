@@ -13,12 +13,15 @@ import { IPatientCreateData } from './interfaces/IPatientCreateData';
 import { IPatientUpdateData } from './interfaces/IPatientUpdateData';
 
 import { PatientEntity } from './entities/PatientEntity';
+import {ChronicEntity} from "../chronic/entities/ChronicEntity";
 
 @Injectable()
 export class PatientService {
   constructor(
     @InjectRepository(PatientEntity)
     private patientRepository: Repository<PatientEntity>,
+    @InjectRepository(PatientEntity)
+    private chronicRepository: Repository<ChronicEntity>,
   ) {}
 
   async findById(id: IPatient['id'], relations?: string[]): Promise<PatientEntity> {
@@ -45,7 +48,7 @@ export class PatientService {
 
   async findMany(query: IGetManyQueryDto<PatientEntity>): Promise<[PatientEntity[], number]> {
     return this.patientRepository.findAndCount({
-      relations: ['records']
+      relations: ['records','chronic']
     });
   }
 
@@ -74,8 +77,12 @@ export class PatientService {
     createData: IPatientCreateData,
     relations: IPatientExtended,
   ): Promise<PatientEntity> {
+
+    const chronic = await this.chronicRepository.findByIds(createData.chronicIds);
+
     return this.patientRepository.save({
       ...createData,
+      chronic: chronic,
       ...relations,
     });
   }

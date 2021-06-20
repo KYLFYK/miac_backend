@@ -5,6 +5,12 @@ export enum sexType {
   FEMALE = 'female',
   MALE = 'male'
 }
+export enum currentStatusType {
+  NORMAL = 'Номальное',
+  GOOD = 'Хорошее',
+  SATISFACTORY = 'Удовлитворительное',
+  BAD = 'Плохое',
+}
 export interface IPatient extends IBaseEntity {
   id: number;
   firstName: string;
@@ -16,5 +22,6 @@ export interface IPatient extends IBaseEntity {
   snils: string;
   age: number;
   sex: sexType;
+  currentStatus: currentStatusType;
   isVerify: boolean;
 }

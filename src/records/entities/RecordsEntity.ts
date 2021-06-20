@@ -9,6 +9,7 @@ import {
 import { IRecords } from '../interfaces/IRecords';
 import { IRecordsExtended } from '../interfaces/IRecordsExtended';
 import {PatientEntity} from "../../patient/entities/PatientEntity";
+import {ChronicEntity} from "../../chronic/entities/ChronicEntity";
 
 @Entity('records')
 export class RecordsEntity implements IRecords, IRecordsExtended {
@@ -35,6 +36,8 @@ export class RecordsEntity implements IRecords, IRecordsExtended {
 
   @ManyToOne(() => PatientEntity, patient => patient.id)
   owner: PatientEntity;
+
+
 
   @CreateDateColumn()
   createdAt: Date;
