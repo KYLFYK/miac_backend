@@ -46,6 +46,10 @@ export class PatientEntity implements IPatient, IPatientExtended {
   @Column()
   snils: string;
 
+  @ManyToMany(() => RecordsEntity)
+  @JoinTable()
+  records: RecordsEntity[];
+
   @CreateDateColumn()
   createdAt: Date;
 

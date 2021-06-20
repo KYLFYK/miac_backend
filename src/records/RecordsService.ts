@@ -63,7 +63,7 @@ export class RecordsService {
   }
 
   async findMany(query: IGetManyQueryDto<RecordsEntity>): Promise<[RecordsEntity[], number]> {
-    return this.recordsRepository.findAndCount({relations: ['owner']});
+    return this.recordsRepository.findAndCount({...query, relations: ['owner']});
   }
 
   async findManyByIds(ids: IRecords['id'][]): Promise<RecordsEntity[]> {
