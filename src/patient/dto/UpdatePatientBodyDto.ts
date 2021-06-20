@@ -67,8 +67,8 @@ export class UpdatePatientBodyDto implements IPatientUpdateData {
   @IsOptional()
   @ApiPropertyOptional({ default: true })
   readonly isVerify: boolean;
-
-  @ApiPropertyOptional({ type: ActivityResponseDto, isArray: true})
-  @Type(() => ActivityResponseDto)
-  activityId: ActivityResponseDto["id"][];
+  //
+  // @ApiPropertyOptional({ type: ActivityResponseDto, isArray: true})
+  // @Type(() => ActivityResponseDto)
+  // activityId: ActivityResponseDto["id"][];
 }

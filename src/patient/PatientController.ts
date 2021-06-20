@@ -76,7 +76,7 @@ export class PatientController {
 
     const created = await this.patientService.create(createData, relationsForCreate);
 
-    const found = await this.patientService.findByIdStrict(created.id, query.relations);
+    const found = await this.patientService.findByIdStrict(created.id, ['chronic']);
 
     return plainToClass(CreatePatientResponseDto, found);
   }
