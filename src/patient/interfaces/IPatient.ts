@@ -6,7 +6,7 @@ export enum sexType {
   MALE = 'male'
 }
 export enum currentStatusType {
-  NORMAL = 'Номальное',
+  NORMAL = 'Нормальное',
   GOOD = 'Хорошее',
   SATISFACTORY = 'Удовлитворительное',
   BAD = 'Плохое',
